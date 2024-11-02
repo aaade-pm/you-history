@@ -1,6 +1,9 @@
 import "../../src/App.css";
+import useSignIn from "../hooks/auth/useSignIn";
 
 const LandingPage = () => {
+  const { SignInWithGoogle } = useSignIn();
+
   return (
     <>
       <div className="background-image">
@@ -17,7 +20,10 @@ const LandingPage = () => {
           <div className="bg-[#f24545] mb-28 text-white p-10 rounded-2xl m-4">
             <h2 className="text-2xl font-bold">Hello World</h2>
             <p className="text-lg">Welcome to YouHistory</p>
-            <button className="bg-[#fff] text-black p-2 rounded-xl mt-4">
+            <button
+              onClick={() => SignInWithGoogle()}
+              className="bg-[#fff] text-black p-2 rounded-xl mt-4"
+            >
               Get Started
             </button>
           </div>
