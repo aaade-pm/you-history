@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Route,
@@ -7,7 +6,7 @@ import {
   Navigate,
   useLocation,
 } from "react-router-dom";
-import { RootState } from "./redux/store";
+import useAuth from "./hooks/auth/useAuth";
 
 const LandingPage = React.lazy(() => import("./pages/LandingPage"));
 const Dashboard = React.lazy(() => import("./pages/DashboardPage"));
@@ -18,8 +17,8 @@ interface PrivateRouteProps {
 
 //Private Route for authenticated users
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
-  const user = useSelector((state: RootState) => state.user.user);
   const location = useLocation();
+  const { user } = useAuth();
   return user ? (
     <>{children}</>
   ) : (
