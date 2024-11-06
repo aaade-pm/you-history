@@ -5,7 +5,6 @@ import { supabase } from "../../services/auth/supabase";
 import { RootState } from "../../redux/store";
 import {
   setUser,
-  setUserDetails,
   clearUser,
   setLoading,
 } from "../../redux/slices/auth/authSlice";
@@ -16,7 +15,6 @@ const useAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.user);
-  const userDetails = useSelector((state: RootState) => state.auth.userDetails);
   const loading = useSelector((state: RootState) => state.auth.loading);
 
   // Function to sign in with Spotify
@@ -66,7 +64,6 @@ const useAuth = () => {
       const { data } = await supabase.auth.getSession();
       if (data?.session) {
         dispatch(setUser(data?.session));
-        dispatch(setUserDetails(data?.session?.user?.user_metadata));
         navigate("/dashboard");
       }
       dispatch(setLoading(false));
@@ -78,7 +75,6 @@ const useAuth = () => {
       (_event, session) => {
         if (session) {
           dispatch(setUser(session));
-          dispatch(setUserDetails(session.user?.user_metadata));
           navigate("/dashboard");
         } else {
           dispatch(clearUser());
@@ -105,7 +101,7 @@ const useAuth = () => {
     };
   }, [dispatch, navigate, refreshToken]);
 
-  return { user, userDetails, loading, SignInWithSpotify, signOut };
+  return { user, loading, SignInWithSpotify, signOut };
 };
 
 export default useAuth;
