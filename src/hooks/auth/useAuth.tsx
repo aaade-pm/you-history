@@ -25,7 +25,7 @@ const useAuth = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "spotify",
         options: {
-          redirectTo: "http://localhost:5174/dashboard",
+          redirectTo: "http://localhost:5174/",
         },
       });
       if (error) throw error;
@@ -43,6 +43,7 @@ const useAuth = () => {
     dispatch(clearUser());
     navigate("/");
     toast.success("You have been signed out.");
+    console.log("Signed out");
   }, [dispatch, navigate]);
 
   // Handle token refresh
@@ -64,7 +65,7 @@ const useAuth = () => {
     const fetchSession = async (): Promise<void> => {
       const { data } = await supabase.auth.getSession();
       if (data?.session) {
-        dispatch(setUser(data.session));
+        dispatch(setUser(data?.session));
         dispatch(setUserDetails(data?.session?.user?.user_metadata));
         navigate("/dashboard");
       }
